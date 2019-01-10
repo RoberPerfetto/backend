@@ -14,4 +14,8 @@ public interface UserService {
 	//retorna esa lista
 	List<User> findAll();
 
+	//Elimina un usario
+	//No retorna nada
+	void deleteUser(Long id);
+
 }

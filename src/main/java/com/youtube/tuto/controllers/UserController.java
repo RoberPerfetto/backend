@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonParseException;
@@ -48,6 +49,18 @@ public class UserController {
 	@RequestMapping(value="/getUsers", method=RequestMethod.GET)
 	public List<User> getsUsers() {
 		return this.userService.findAll();
+	}
+	
+	@RequestMapping(value="/deleteUser", method=RequestMethod.POST)
+	public void deleteUser(@RequestBody String userJson) throws Exception {
+		this.mapper = new ObjectMapper();
+		User user = this.mapper.readValue(userJson, User.class);  
+		
+		if(user.getId()!=null) {
+			this.userService.deleteUser(user.getId());
+		}else {
+			throw new Exception("Id null");
+		}
 	}
 	
 	private boolean validate(User user) {
